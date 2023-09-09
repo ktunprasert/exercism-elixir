@@ -4,29 +4,22 @@ defmodule LanguageList do
   end
 
   def add(list, language) do
-    case is_list(language) do
-      true -> list ++ language
-      _ -> [language] ++ list
-    end
+    [language | list]
   end
 
-  def remove(list) do
-    [_ | tail] = list
+  def remove([_ | tail]) do
     tail
   end
 
-  def first(list) do
-    case length(list) do
-      0 -> ""
-      _ -> List.first(list)
-    end
+  def first([head | _]) do
+    head
   end
 
   def count(list) do
-    List.foldl(list, 0, fn _, acc -> acc + 1 end)
+    length(list)
   end
 
   def functional_list?(list) do
-    List.foldl(list, false, fn lang, acc -> acc || lang == "Elixir" end)
+    "Elixir" in list
   end
 end
