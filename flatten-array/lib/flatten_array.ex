@@ -14,7 +14,7 @@ defmodule FlattenArray do
 
   @spec flatten(list) :: list
   def flatten([]), do: []
-  def flatten(head) when not is_list(head), do: [head]
-  def flatten([nil | rest]), do: flatten(rest)
+  def flatten(nil), do: []
   def flatten([head | rest]), do: flatten(head) ++ flatten(rest)
+  def flatten(head), do: [head]
 end
