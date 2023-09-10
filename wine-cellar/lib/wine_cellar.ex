@@ -11,14 +11,13 @@ defmodule WineCellar do
 
   def filter(cellar, color, opts \\ []) do
     cellar
-    |> Keyword.take([color])
-    |> Keyword.values()
+    |> Keyword.get_values(color)
     |> maybe_filter(opts[:year], &filter_by_year/2)
     |> maybe_filter(opts[:country], &filter_by_country/2)
   end
 
-  def maybe_filter(wines, nil, _), do: wines
-  def maybe_filter(wines, arg, func), do: wines |> func.(arg)
+  defp maybe_filter(wines, nil, _), do: wines
+  defp maybe_filter(wines, arg, func) when is_function(func), do: wines |> func.(arg)
 
   # The functions below do not need to be modified.
 
