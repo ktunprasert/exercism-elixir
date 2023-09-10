@@ -42,17 +42,16 @@ defmodule RationalNumbers do
   Exponentiation of a real number by a rational number
   """
   @spec pow_real(x :: integer, n :: rational) :: float
-  def pow_real(x, {a, b}), do: x ** a ** (1 / b)
+  def pow_real(x, {a, b}), do: x ** (a / b)
 
   @doc """
   Reduce a rational number to its lowest terms
   """
   @spec reduce(a :: rational) :: rational
+  def reduce({a1, b1}) when b1 < 0, do: {-a1, -b1} |> reduce
+
   def reduce({a1, b1}) do
     gcd = Integer.gcd(a1, b1)
-    {(a1 / gcd) |> trunc, (b1 / gcd) |> trunc} |> normalise
+    {div(a1, gcd), div(b1, gcd)}
   end
-
-  defp normalise({a1, b1}) when b1 < 0, do: {-a1, -b1}
-  defp normalise({a1, b1}), do: {a1, b1}
 end
