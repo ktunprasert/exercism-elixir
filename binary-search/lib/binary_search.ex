@@ -21,8 +21,12 @@ defmodule BinarySearch do
   def search({}, _), do: :not_found
 
   def search(numbers, key) do
-    search(numbers, key, 0, (Tuple.to_list(numbers) |> length()) - 1)
+    if key < elem(numbers, 0) or key > elem(numbers, tuple_size(numbers) - 1), do: :not_found
+
+    search(numbers, key, 0, tuple_size(numbers) - 1)
   end
+
+  defp search(_, _, low, high) when low > high, do: :not_found
 
   defp search(numbers, key, low, high) do
     mid = div(low + high, 2)
@@ -30,7 +34,7 @@ defmodule BinarySearch do
     case elem(numbers, mid) do
       ^key -> {:ok, mid}
       v when v < key -> search(numbers, key, mid + 1, high)
-      _ -> search(numbers, key, low, mid - 1)
+      v when v > key -> search(numbers, key, low, mid - 1)
     end
   end
 end
