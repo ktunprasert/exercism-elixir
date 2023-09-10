@@ -7,15 +7,15 @@ defmodule Sublist do
 
   def compare(a, b) do
     cond do
-      contains?(a, b) -> :sublist
-      contains?(b, a) -> :superlist
+      subset?(a, b) -> :sublist
+      subset?(b, a) -> :superlist
       true -> :unequal
     end
   end
 
-  defp contains?(_a, []), do: false
+  defp subset?(_a, []), do: false
 
-  defp contains?(a, b) do
-    if List.starts_with?(b, a), do: true, else: contains?(a, tl(b))
+  defp subset?(a, b) do
+    if List.starts_with?(b, a), do: true, else: subset?(a, tl(b))
   end
 end
