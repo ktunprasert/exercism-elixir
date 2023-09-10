@@ -5,51 +5,18 @@ defmodule Sublist do
   """
   def compare(same, same), do: :equal
 
-  def compare(a, b), do: compare(a, b, length(a), length(b))
-
-  def compare([], [], _, _), do: :equal
-  def compare([], _, _, _), do: :sublist
-  def compare(_, [], _, _), do: :superlist
-
-  def compare(same, same, a, b) do
+  def compare(a, b) do
     cond do
-      a > b -> :superlist
-      a < b -> :sublist
+      contains?(a, b) -> :superlist
+      contains?(b, a) -> :sublist
       true -> :unequal
     end
   end
 
-  def compare([a], [b], pa, pb) do
-    cond do
-      pa > pb && a < b -> :superlist
-      pa < pb && a > b -> :sublist
-      true -> :unequal
-    end
-  end
+  defp contains?(a, b) when length(a) < length(b), do: false
 
-  def compare([a | as] = al, [b | bs] = bl, pa, pb) do
-    # if a == b do
-    #   compare(as, bs, pa, pb)
-    # else
-    IO.inspect(al, label: "al")
-    IO.inspect(bl, label: "bl")
-
-    cond do
-      a == b ->
-        compare(as, bs, pa, pb)
-
-      pa > pb ->
-        IO.puts("fst")
-        compare(as, bl, pa, pb)
-
-      pb > pa ->
-        IO.puts("snd")
-        compare(al, bs, pa, pb)
-
-      true ->
-        :unequal
-    end
-
-    # end
+  defp contains?([_ | tail] = lst, b) do
+    sub_c = Enum.take(lst, length(b))
+    sub_c === b or contains?(tail, b)
   end
 end
