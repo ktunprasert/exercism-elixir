@@ -10,7 +10,6 @@ defmodule Username do
       ?ß -> ~c"ss"
       ?_ -> ~c"_"
       _ -> ~c""
-    end
-    |> Kernel.++(sanitize(rest))
+    end ++ sanitize(rest)
   end
 end
