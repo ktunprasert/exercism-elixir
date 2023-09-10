@@ -1,34 +1,16 @@
 defmodule Username do
-  def sanitize(username) do
-    username
-    |> List.foldl(
-      [],
-      fn r, acc ->
-        case r do
-          ?ä ->
-            acc ++ ~c"ae"
+  def sanitize([]), do: []
 
-          ?ö ->
-            acc ++ ~c"oe"
-
-          ?ü ->
-            acc ++ ~c"ue"
-
-          ?ß ->
-            acc ++ ~c"ss"
-
-          r ->
-            if valid?(r) do
-              acc ++ [r]
-            else
-              acc
-            end
-        end
-      end
-    )
-  end
-
-  defp valid?(char) do
-    char == ?_ || (char >= ?a && char <= ?z)
+  def sanitize([char | rest]) do
+    case char do
+      char when char in ?a..?z -> [char]
+      ?ä -> ~c"ae"
+      ?ö -> ~c"oe"
+      ?ü -> ~c"ue"
+      ?ß -> ~c"ss"
+      ?_ -> ~c"_"
+      _ -> ~c""
+    end
+    |> Kernel.++(sanitize(rest))
   end
 end
