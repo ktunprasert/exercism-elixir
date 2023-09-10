@@ -53,6 +53,6 @@ defmodule RationalNumbers do
     {(a1 / gcd) |> trunc, (b1 / gcd) |> trunc} |> normalise
   end
 
-  def normalise({a1, b1}) when b1 < 0, do: {-a1, -b1}
-  def normalise({a1, b1}), do: {a1, b1}
+  defp normalise({a1, b1}) when b1 < 0, do: {-a1, -b1}
+  defp normalise({a1, b1}), do: {a1, b1}
 end
