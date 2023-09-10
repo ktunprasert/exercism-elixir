@@ -6,12 +6,10 @@ defmodule TakeANumber do
   defp loop(x) do
     receive do
       {:report_state, sender_pid} ->
-        send(sender_pid, x)
-        loop(x)
+        send(sender_pid, x) |> loop
 
       {:take_a_number, sender_pid} ->
-        send(sender_pid, x + 1)
-        loop(x + 1)
+        send(sender_pid, x + 1) |> loop
 
       :stop ->
         :ok
