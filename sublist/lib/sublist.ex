@@ -7,16 +7,15 @@ defmodule Sublist do
 
   def compare(a, b) do
     cond do
-      contains?(a, b) -> :superlist
-      contains?(b, a) -> :sublist
+      contains?(a, b) -> :sublist
+      contains?(b, a) -> :superlist
       true -> :unequal
     end
   end
 
-  defp contains?(a, b) when length(a) < length(b), do: false
+  defp contains?(_a, []), do: false
 
-  defp contains?([_ | tail] = lst, b) do
-    sub_c = Enum.take(lst, length(b))
-    sub_c === b or contains?(tail, b)
+  defp contains?(a, b) do
+    if List.starts_with?(b, a), do: true, else: contains?(a, tl(b))
   end
 end
