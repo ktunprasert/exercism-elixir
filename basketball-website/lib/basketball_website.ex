@@ -3,11 +3,7 @@ defmodule BasketballWebsite do
 
   def extract_from_path(data, [head | rest]) do
     if data[head] != nil do
-      %{
-        ^head => nested_data
-      } = data
-
-      extract_from_path(nested_data, rest)
+      extract_from_path(data[head], rest)
     else
       nil
     end
