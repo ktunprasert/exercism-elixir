@@ -1,9 +1,7 @@
 defmodule BoutiqueInventory do
   def sort_by_price(inventory) do
     inventory
-    |> Enum.sort(fn l, r ->
-      if l.price == r.price, do: l.name > r.name, else: l.price < r.price
-    end)
+    |> Enum.sort_by(& &1.price)
   end
 
   def with_missing_price(inventory) do
