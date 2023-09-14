@@ -27,13 +27,5 @@ defmodule Strain do
   @spec discard(list :: list(any), fun :: (any -> boolean)) :: list(any)
   def discard(list, fun)
 
-  def discard([], _), do: []
-
-  def discard([head | tail], fun) do
-    if fun.(head) do
-      discard(tail, fun)
-    else
-      [head | discard(tail, fun)]
-    end
-  end
+  def discard(list, fun), do: keep(list, &(!fun.(&1)))
 end
