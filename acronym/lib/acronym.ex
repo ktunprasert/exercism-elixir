@@ -5,7 +5,7 @@ defmodule Acronym do
   """
   @spec abbreviate(String.t()) :: String.t()
   def abbreviate(string) do
-    String.split(string, ~r/\W+/)
+    String.split(string, ~r/[\s-_]+/)
     |> Enum.map(&String.first/1)
     |> Enum.map(&String.upcase/1)
     |> Enum.join()
