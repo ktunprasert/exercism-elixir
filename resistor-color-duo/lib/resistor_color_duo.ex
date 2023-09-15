@@ -17,8 +17,6 @@ defmodule ResistorColorDuo do
   """
   @spec value(colors :: [atom]) :: integer
   def value([i, j | _]) do
-    [@colors[i], @colors[j]]
-    |> Enum.join()
-    |> String.to_integer()
+    @colors[i] * 10 + @colors[j]
   end
 end
