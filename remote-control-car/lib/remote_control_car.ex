@@ -33,9 +33,9 @@ defmodule RemoteControlCar do
     do_drive(remote_car)
   end
 
-  def do_drive(%{battery_percentage: 0} = car), do: car
+  defp do_drive(%{battery_percentage: 0} = car), do: car
 
-  def do_drive(%{distance_driven_in_meters: dist, battery_percentage: battery} = car) do
+  defp do_drive(%{distance_driven_in_meters: dist, battery_percentage: battery} = car) do
     %{car | distance_driven_in_meters: dist + 20, battery_percentage: battery - 1}
   end
 end
