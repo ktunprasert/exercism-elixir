@@ -1,24 +1,20 @@
 defmodule RemoteControlCar do
   @enforce_keys [:nickname]
-  defstruct [:battery_percentage, :distance_driven_in_meters, :nickname]
+  defstruct [:nickname, battery_percentage: 100, distance_driven_in_meters: 0]
 
   def new(nickname \\ "none") do
     %RemoteControlCar{
-      battery_percentage: 100,
-      distance_driven_in_meters: 0,
       nickname: nickname
     }
   end
 
   def display_distance(remote_car) when is_struct(remote_car, RemoteControlCar) do
-    remote_car
-    |> Map.get(:distance_driven_in_meters)
+    remote_car.distance_driven_in_meters
     |> then(&"#{&1} meters")
   end
 
   def display_battery(remote_car) when is_struct(remote_car, RemoteControlCar) do
-    remote_car
-    |> Map.get(:battery_percentage)
+    remote_car.battery_percentage
     |> then(fn
       0 -> "Battery empty"
       p -> "Battery at #{p}%"
@@ -26,12 +22,16 @@ defmodule RemoteControlCar do
   end
 
   def drive(remote_car) when is_struct(remote_car, RemoteControlCar) do
-    do_drive(remote_car)
-  end
+    case remote_car.battery_percentage do
+      0 ->
+        remote_car
 
-  defp do_drive(%{battery_percentage: 0} = car), do: car
-
-  defp do_drive(%{distance_driven_in_meters: dist, battery_percentage: battery} = car) do
-    %{car | distance_driven_in_meters: dist + 20, battery_percentage: battery - 1}
+      battery ->
+        %{
+          remote_car
+          | battery_percentage: battery - 1,
+            distance_driven_in_meters: remote_car.distance_driven_in_meters + 20
+        }
+    end
   end
 end
