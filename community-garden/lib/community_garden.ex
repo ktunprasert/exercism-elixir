@@ -29,8 +29,9 @@ defmodule CommunityGarden do
 
   def get_registration(pid, plot_id) do
     Agent.get(pid, fn {registrations, _} ->
-      Enum.find(registrations, fn plot -> plot.plot_id == plot_id end) ||
-        {:not_found, "plot is unregistered"}
+      Enum.find(registrations, {:not_found, "plot is unregistered"}, fn plot ->
+        plot.plot_id == plot_id
+      end)
     end)
   end
 end
