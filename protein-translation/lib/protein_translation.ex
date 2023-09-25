@@ -1,24 +1,4 @@
 defmodule ProteinTranslation do
-  @codons %{
-    "AUG" => "Methionine",
-    "UUU" => "Phenylalanine",
-    "UUC" => "Phenylalanine",
-    "UUA" => "Leucine",
-    "UUG" => "Leucine",
-    "UCU" => "Serine",
-    "UCC" => "Serine",
-    "UCA" => "Serine",
-    "UCG" => "Serine",
-    "UAU" => "Tyrosine",
-    "UAC" => "Tyrosine",
-    "UGU" => "Cysteine",
-    "UGC" => "Cysteine",
-    "UGG" => "Tryptophan",
-    "UAA" => "STOP",
-    "UAG" => "STOP",
-    "UGA" => "STOP"
-  }
-
   @doc """
   Given an RNA string, return a list of proteins specified by codons, in order.
   """
@@ -71,9 +51,16 @@ defmodule ProteinTranslation do
   """
   @spec of_codon(String.t()) :: {:ok, String.t()} | {:error, String.t()}
   def of_codon(codon) do
-    case Map.get(@codons, codon) do
-      nil -> {:error, "invalid codon"}
-      protein -> {:ok, protein}
+    cond do
+      codon in ["UAA", "UAG", "UGA"] -> {:ok, "STOP"}
+      codon in ["UGU", "UGC"] -> {:ok, "Cysteine"}
+      codon in ["UUA", "UUG"] -> {:ok, "Leucine"}
+      codon in ["UUU", "UUC"] -> {:ok, "Phenylalanine"}
+      codon in ["UCU", "UCC", "UCA", "UCG"] -> {:ok, "Serine"}
+      codon in ["UAU", "UAC"] -> {:ok, "Tyrosine"}
+      codon == "AUG" -> {:ok, "Methionine"}
+      codon == "UGG" -> {:ok, "Tryptophan"}
+      true -> {:error, "invalid codon"}
     end
   end
 end
