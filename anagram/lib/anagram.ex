@@ -6,13 +6,13 @@ defmodule Anagram do
   def match(base, candidates) do
     with base <- base |> normalise do
       candidates
-      |> Enum.filter(&do_match(&1 |> normalise, base))
+      |> Enum.filter(&anagram?(&1 |> normalise, base))
     end
   end
 
-  def do_match(base, base), do: false
+  def anagram?(base, base), do: false
 
-  def do_match(cand, base),
+  def anagram?(cand, base),
     do:
       base |> String.to_charlist() |> Enum.sort() ==
         cand |> String.to_charlist() |> Enum.sort()
