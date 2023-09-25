@@ -16,21 +16,12 @@ defmodule Raindrops do
     end
   end
 
-  defp pling(x) when rem(x, 3) == 0 do
-    "Pling"
-  end
-
+  defp pling(x) when rem(x, 3) == 0, do: "Pling"
   defp pling(_), do: ""
 
-  defp plang(x) when rem(x, 5) == 0 do
-    "Plang"
-  end
-
+  defp plang(x) when rem(x, 5) == 0, do: "Plang"
   defp plang(_), do: ""
 
-  defp plong(x) when rem(x, 7) == 0 do
-    "Plong"
-  end
-
+  defp plong(x) when rem(x, 7) == 0, do: "Plong"
   defp plong(_), do: ""
 end
