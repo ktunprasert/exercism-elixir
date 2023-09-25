@@ -10,12 +10,12 @@ defmodule Anagram do
     end
   end
 
-  def anagram?(base, base), do: false
+  defp anagram?(base, base), do: false
 
-  def anagram?(cand, base),
+  defp anagram?(cand, base),
     do:
       base |> String.to_charlist() |> Enum.sort() ==
         cand |> String.to_charlist() |> Enum.sort()
 
-  def normalise(s), do: s |> String.downcase()
+  defp normalise(s), do: s |> String.downcase()
 end
